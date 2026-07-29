@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Open data-centre and electricity-demand intelligence for Great Britain.">
+<title>Data Centres GB · GlobalGrid2050</title>
+<style>
+  :root{
+    color-scheme:dark;
+    --bg:#0b0d12;
+    --panel:#12151c;
+    --panel2:#151923;
+    --line:#262b36;
+    --text:#eef2fb;
+    --muted:#9aa3b5;
+    --cyan:#00e5ff;
+    --green:#53ff4c;
+    --amber:#ffcc00;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{margin:0;background:radial-gradient(1100px 650px at 50% -10%,rgba(0,229,255,.08),transparent 60%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .shell{width:min(1040px,calc(100% - 32px));margin:0 auto;padding:28px 0 60px}
+  .eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
+  h1{font-size:clamp(2rem,6vw,4.4rem);line-height:.98;margin:10px 0 18px;letter-spacing:-.04em}
+  .lead{max-width:820px;font-size:clamp(1rem,2.2vw,1.3rem);line-height:1.55;color:#cfd6e5}
+  .status{display:flex;gap:8px 14px;flex-wrap:wrap;margin:22px 0 34px;font-family:ui-monospace,monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}
+  .pill{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:rgba(18,21,28,.75)}
+  .live{color:var(--green);border-color:rgba(83,255,76,.35)}
+  .dev{color:var(--amber);border-color:rgba(255,204,0,.35)}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .card{display:block;border:1px solid var(--line);border-radius:15px;background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.014));padding:18px;min-height:160px;box-shadow:0 18px 50px rgba(0,0,0,.15)}
+  .card:hover{border-color:rgba(0,229,255,.55);text-decoration:none;transform:translateY(-1px)}
+  .card small{display:block;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);margin-bottom:10px}
+  .card strong{display:block;color:var(--text);font-size:1.2rem;margin-bottom:8px}
+  .card span{display:block;color:var(--muted);line-height:1.45}
+  .facts{margin:34px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .fact b{display:block;color:var(--cyan);font-size:1.55rem}.fact span{color:var(--muted);font-size:.9rem}
+  .note{color:var(--muted);line-height:1.55;font-size:.92rem}
+  footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem;line-height:1.5}
+  @media(max-width:720px){.grid,.facts{grid-template-columns:1fr}.shell{width:min(100% - 24px,1040px);padding-top:20px}.card{min-height:0}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="eyebrow">Ventus · GlobalGrid2050 · Great Britain</div>
+  <h1>Data Centres GB</h1>
+  <p class="lead">An independent open-source workstream for mapping data centres, separating every source, and connecting digital-infrastructure demand to the physical electricity grid.</p>
+
+  <div class="status">
+    <span class="pill live">Repository live</span>
+    <span class="pill dev">API experimental</span>
+    <span class="pill">Provenance first</span>
+  </div>
+
+  <section class="facts" aria-label="Current public context">
+    <div class="fact"><b>564</b><span>UK data centres cited as listed by the BBC, 29 July 2026</span></div>
+    <div class="fact"><b>125 GW</b><span>electricity connection capacity requested, up from 41 GW in one year</span></div>
+    <div class="fact"><b>£237,500–£712,500/MW</b><span>Ofgem's proposed refundable connection deposit range</span></div>
+  </section>
+
+  <section class="grid">
+    <a class="card" href="https://github.com/Ventusltd/data-centres-gb">
+      <small>Open repository</small>
+      <strong>Code, data contracts and development</strong>
+      <span>Develop the data-centre layer independently without burying it inside the main GlobalGrid2050 repository.</span>
+    </a>
+    <a class="card" href="https://github.com/Ventusltd/data-centres-gb/blob/main/app.py">
+      <small>Open API</small>
+      <strong>Source-separated data adapter</strong>
+      <span>FastAPI service with provenance labels, retrieval timestamps, caching and conservative parsing.</span>
+    </a>
+    <a class="card" href="https://www.datacentermap.com/united-kingdom/london/">
+      <small>Source · separate</small>
+      <strong>Data Center Map · London</strong>
+      <span>Public directory source retained separately rather than silently merged into a single untraceable dataset.</span>
+    </a>
+    <a class="card" href="https://www.bbc.co.uk/news/articles/c9q90q9qnn2o">
+      <small>Context source</small>
+      <strong>BBC · grid-connection demand</strong>
+      <span>Public context for the rapid increase in connection requests and Ofgem's proposed deposit mechanism.</span>
+    </a>
+    <a class="card" href="https://globalgrid2050.com/">
+      <small>World-grid platform</small>
+      <strong>Return to GlobalGrid2050</strong>
+      <span>Connect this independent dataset to the wider grid-development, engineering and infrastructure platform.</span>
+    </a>
+    <a class="card" href="https://ventusltd.github.io/data-federation-map-for-globalgrid2050-all-repos/dashboard/sandbox/spider_full_po_test.html">
+      <small>Federation</small>
+      <strong>The Spider 🕷</strong>
+      <span>Inspect the relationship between this repository, the current homepage, the next homepage and the wider federation.</span>
+    </a>
+  </section>
+
+  <p class="note">Source records remain source-labelled. Counts, ownership, operational status, coordinates and power demand must not be treated as verified merely because a listing exists. Future sources should be added through separate adapters and reconciled only through explicit evidence rules.</p>
+
+  <footer>Managed by Ventus Ltd as part of GlobalGrid2050. General technical documentation and research only; not formal engineering, planning, commercial or regulatory advice.</footer>
+</main>
+</body>
+</html>
