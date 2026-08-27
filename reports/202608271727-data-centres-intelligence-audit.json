@@ -1,0 +1,527 @@
+{
+  "browser_export": {
+    "order_by": [
+      "display_rank ASC",
+      "record_id ASC"
+    ],
+    "record_count": 3,
+    "source": "DuckDB query over the physically landed Parquet file"
+  },
+  "data_law": {
+    "correction_policy": "Corrections mint a new timestamped generation; this partition is never appended to or edited in place after publication.",
+    "declared_key": [
+      "record_id"
+    ],
+    "grain": "one row per repository-transcribed data-centre contextual intelligence assertion",
+    "owner": "Ventusltd/data-centres-gb",
+    "partition_law": "Hive-style immutable generation and section partition; a run replaces only its complete touched generation=202608271727/section=DATA_CENTRES partition.",
+    "physical_schema": [
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "record_id",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "generation_id",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "section",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "record_kind",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_record_key",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "title",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "summary",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "geography",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "metric_name",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "DOUBLE",
+        "logical_required": true,
+        "name": "value_min",
+        "parquet_converted_type": null,
+        "parquet_primitive_type": "DOUBLE",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "DOUBLE",
+        "logical_required": true,
+        "name": "value_max",
+        "parquet_converted_type": null,
+        "parquet_primitive_type": "DOUBLE",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "unit",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_id",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_url",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "DATE",
+        "logical_required": true,
+        "name": "source_date",
+        "parquet_converted_type": "DATE",
+        "parquet_primitive_type": "INT32",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "evidence_commit",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_licence",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_rights_status",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_attribution",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "usage_context",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "BOOLEAN",
+        "logical_required": true,
+        "name": "eligible_for_project_signal",
+        "parquet_converted_type": null,
+        "parquet_primitive_type": "BOOLEAN",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "INTEGER",
+        "logical_required": true,
+        "name": "display_rank",
+        "parquet_converted_type": "INT_32",
+        "parquet_primitive_type": "INT32",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "evidence_sha256",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      }
+    ]
+  },
+  "deployment_state": "not-authorised",
+  "deterministic_rebuild_contract": {
+    "enforced_by": "202608271727-data-centres-intelligence-candidate.yml",
+    "required": "Two isolated builds from the same source commit must be byte-identical for every output."
+  },
+  "engine": {
+    "name": "duckdb",
+    "threads": 1,
+    "version": "1.3.2"
+  },
+  "generated_at": "2026-08-27T16:27:00Z",
+  "generation": "202608271727",
+  "landed_file_readback": {
+    "compression_codecs": [
+      "ZSTD"
+    ],
+    "context_records_eligible_for_project_signal": 0,
+    "distinct_keys": 3,
+    "duplicate_key_groups": 0,
+    "null_keys": 0,
+    "record_universe_sha256": "0d135f7e9ab174953168a32eeae0662cde53181d4ffc4f7fd2b50763b66c4aee",
+    "required_column_null_counts": {
+      "display_rank": 0,
+      "eligible_for_project_signal": 0,
+      "evidence_commit": 0,
+      "evidence_sha256": 0,
+      "generation_id": 0,
+      "geography": 0,
+      "metric_name": 0,
+      "record_id": 0,
+      "record_kind": 0,
+      "section": 0,
+      "source_attribution": 0,
+      "source_date": 0,
+      "source_id": 0,
+      "source_licence": 0,
+      "source_record_key": 0,
+      "source_rights_status": 0,
+      "source_url": 0,
+      "summary": 0,
+      "title": 0,
+      "unit": 0,
+      "usage_context": 0,
+      "value_max": 0,
+      "value_min": 0
+    },
+    "rows": 3,
+    "schema": [
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "record_id",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "generation_id",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "section",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "record_kind",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_record_key",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "title",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "summary",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "geography",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "metric_name",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "DOUBLE",
+        "logical_required": true,
+        "name": "value_min",
+        "parquet_converted_type": null,
+        "parquet_primitive_type": "DOUBLE",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "DOUBLE",
+        "logical_required": true,
+        "name": "value_max",
+        "parquet_converted_type": null,
+        "parquet_primitive_type": "DOUBLE",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "unit",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_id",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_url",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "DATE",
+        "logical_required": true,
+        "name": "source_date",
+        "parquet_converted_type": "DATE",
+        "parquet_primitive_type": "INT32",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "evidence_commit",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_licence",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_rights_status",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "source_attribution",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "usage_context",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "BOOLEAN",
+        "logical_required": true,
+        "name": "eligible_for_project_signal",
+        "parquet_converted_type": null,
+        "parquet_primitive_type": "BOOLEAN",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "INTEGER",
+        "logical_required": true,
+        "name": "display_rank",
+        "parquet_converted_type": "INT_32",
+        "parquet_primitive_type": "INT32",
+        "parquet_repetition": "OPTIONAL"
+      },
+      {
+        "duckdb_describe_nullability": "YES",
+        "duckdb_type": "VARCHAR",
+        "logical_required": true,
+        "name": "evidence_sha256",
+        "parquet_converted_type": "UTF8",
+        "parquet_primitive_type": "BYTE_ARRAY",
+        "parquet_repetition": "OPTIONAL"
+      }
+    ]
+  },
+  "outputs": {
+    "audit_report": {
+      "path": "reports/202608271727-data-centres-intelligence-audit.json",
+      "self_hash_excluded": true
+    },
+    "browser_export": {
+      "bytes": 4579,
+      "path": "exports/202608271727-pipelinenews-data-centres.json",
+      "sha256": "a3b783f5b2133c45b22a18bd4e3071d58262e2a849c6cfeab9cb80a7552b7907"
+    },
+    "parquet": {
+      "bytes": 7982,
+      "path": "data/intelligence/generation=202608271727/section=DATA_CENTRES/part-000.parquet",
+      "sha256": "33f3cdf48f226b55f75d3dc2209d9faf5a126fa20e8ad69c5112df7aa4a1d246"
+    }
+  },
+  "promotion_eligible": false,
+  "schema": "data-centres-intelligence-audit-v1",
+  "source_commit": "7e98a64801b9d9936fd37abb1cb6fc5c4827e88e",
+  "source_input": {
+    "fixture": {
+      "fixture_class": "REPOSITORY_CONTEXT_TRANSCRIPTION",
+      "path": "data/source-fixtures/202608271727-repository-context.json",
+      "sha256": "4e4ae699f1f2d9e0e6e3414bf6642ab6ed8b7ec3fe8c79bdb10f78aedc721fbc"
+    },
+    "repository_code_licence": "MIT",
+    "repository_evidence": [
+      {
+        "path": "README.md",
+        "sha256": "d9cb8615e35c4ed9d3f1eec72537215a4a4b97043e6b8b37e327c4d5bd54c051"
+      },
+      {
+        "path": "index.html",
+        "sha256": "db5a4d92d21b7a86c5eb11f9684d1aac44baf2c19bab6f94069493749bbae45e"
+      }
+    ],
+    "upstream_source_licence": "NOT_DECLARED_IN_REPOSITORY",
+    "upstream_source_rights_status": "REPOSITORY_TRANSCRIBED_CONTEXT_WITH_ATTRIBUTION_AND_LINK_ONLY",
+    "upstream_source_url": "https://www.bbc.co.uk/news/articles/c9q90q9qnn2o"
+  },
+  "status": "PASS",
+  "usage_context": "NON_COMMERCIAL_OPEN_SOURCE"
+}
