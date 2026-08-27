@@ -1,0 +1,84 @@
+{
+  "schema": "data-centres-intelligence-source-manifest-v1",
+  "generation": "202608271727",
+  "created_at": "2026-08-27T16:27:00Z",
+  "repository": "Ventusltd/data-centres-gb",
+  "parent_commit": "0939e3c735f4c9cacefb3acad00b35b6e07e62c2",
+  "parent_tree": "b653bffd7228743c3cd2705b57ce5541cb4cd168",
+  "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+  "deployment_state": "not-authorised",
+  "promotion_eligible": false,
+  "acquisition_mode": "PINNED_REPOSITORY_CONTEXT_FIXTURE_ONLY",
+  "network_fetches": 0,
+  "acquisition_note": "The existing app.py Data Center Map adapter is not invoked by this deterministic generation. Its upstream redistribution rights are not declared by the repository, so directory rows require a separate evidence and rights decision before canonical publication.",
+  "licence_separation": {
+    "application_usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "repository_code_licence": "MIT",
+    "upstream_bbc_source_licence": "NOT_DECLARED_IN_REPOSITORY",
+    "upstream_bbc_source_rights_status": "REPOSITORY_TRANSCRIBED_CONTEXT_WITH_ATTRIBUTION_AND_LINK_ONLY",
+    "rule": "Application purpose does not grant, replace or infer publisher redistribution rights."
+  },
+  "inputs": {
+    "fixture": {
+      "path": "data/source-fixtures/202608271727-repository-context.json",
+      "sha256": "4e4ae699f1f2d9e0e6e3414bf6642ab6ed8b7ec3fe8c79bdb10f78aedc721fbc"
+    },
+    "contract": {
+      "path": "contracts/202608271727-data-centres-intelligence.json",
+      "sha256": "854263431f10f52b670201ebaff2eb417f75aab551d9299f26d9ca921022dfd0"
+    }
+  },
+  "source_boundary": {
+    "parent_commit": "0939e3c735f4c9cacefb3acad00b35b6e07e62c2",
+    "file_count": 7,
+    "paths": [
+      ".github/workflows/202608271727-data-centres-intelligence-candidate.yml",
+      "build/python/202608271727-build-data-centres-intelligence.py",
+      "build/python/202608271727-verify-data-centres-intelligence.py",
+      "contracts/202608271727-data-centres-intelligence.json",
+      "data/source-fixtures/202608271727-repository-context.json",
+      "manifests/202608271727-data-centres-intelligence-source.json",
+      "tests/test_202608271727_data_centres_intelligence.py"
+    ],
+    "workflow_gate": "refs/heads/main with one exact parent and an exact seven-path Git diff"
+  },
+  "manifest_self_exclusion": {
+    "path": "manifests/202608271727-data-centres-intelligence-source.json",
+    "reason": "A manifest cannot contain its own SHA-256 without a circular self-reference. Its exact bytes are authenticated by the generation source commit and tree after the other six source files are hash-checked.",
+    "authenticated_by": "EXACT_GIT_COMMIT_AND_TREE"
+  },
+  "hashed_source_files": [
+    {
+      "path": ".github/workflows/202608271727-data-centres-intelligence-candidate.yml",
+      "sha256": "9d20fa58a919319bdf483c0e39848c2796954e919fa1de9075ba6b8a413a2797"
+    },
+    {
+      "path": "build/python/202608271727-build-data-centres-intelligence.py",
+      "sha256": "abf106f192c8789fe1ed21c6a1755804efab709df6bdc0278ff720fc4505634a"
+    },
+    {
+      "path": "build/python/202608271727-verify-data-centres-intelligence.py",
+      "sha256": "1a044efbad575b23eb2682ace970cc19fe6eefe23b08e23f143a031187cb3020"
+    },
+    {
+      "path": "contracts/202608271727-data-centres-intelligence.json",
+      "sha256": "854263431f10f52b670201ebaff2eb417f75aab551d9299f26d9ca921022dfd0"
+    },
+    {
+      "path": "data/source-fixtures/202608271727-repository-context.json",
+      "sha256": "4e4ae699f1f2d9e0e6e3414bf6642ab6ed8b7ec3fe8c79bdb10f78aedc721fbc"
+    },
+    {
+      "path": "tests/test_202608271727_data_centres_intelligence.py",
+      "sha256": "847df6602e9217f50928403176af49d8b19397dc3f29509c2b08b7edf532be65"
+    }
+  ],
+  "candidate_outputs": [
+    "data/intelligence/generation=202608271727/section=DATA_CENTRES/part-000.parquet",
+    "exports/202608271727-pipelinenews-data-centres.json",
+    "reports/202608271727-data-centres-intelligence-audit.json"
+  ],
+  "candidate_branch": "candidate/202608271727",
+  "schedule": "DISABLED_UNTIL_MANUAL_VERIFICATION",
+  "pages_deployment": false
+}

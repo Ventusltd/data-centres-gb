@@ -1,0 +1,72 @@
+{
+  "schema": "data-centres-repository-context-fixture-v1",
+  "generation": "202608271727",
+  "fixture_class": "REPOSITORY_CONTEXT_TRANSCRIPTION",
+  "parent_repository": "Ventusltd/data-centres-gb",
+  "parent_commit": "0939e3c735f4c9cacefb3acad00b35b6e07e62c2",
+  "parent_tree": "b653bffd7228743c3cd2705b57ce5541cb4cd168",
+  "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+  "repository_code_licence": "MIT",
+  "source": {
+    "source_id": "bbc-data-centres-context-20260729",
+    "publisher": "BBC News",
+    "title": "Data centres could pay hundreds of millions in deposits for power demands",
+    "url": "https://www.bbc.co.uk/news/articles/c9q90q9qnn2o",
+    "source_date": "2026-07-29",
+    "source_licence": "NOT_DECLARED_IN_REPOSITORY",
+    "source_rights_status": "REPOSITORY_TRANSCRIBED_CONTEXT_WITH_ATTRIBUTION_AND_LINK_ONLY",
+    "source_attribution": "BBC News, 29 July 2026",
+    "retained_content": "Three numeric contextual assertions already transcribed in the repository; no article body, HTML or publisher image."
+  },
+  "repository_evidence": [
+    {
+      "path": "README.md",
+      "sha256": "d9cb8615e35c4ed9d3f1eec72537215a4a4b97043e6b8b37e327c4d5bd54c051"
+    },
+    {
+      "path": "index.html",
+      "sha256": "db5a4d92d21b7a86c5eb11f9684d1aac44baf2c19bab6f94069493749bbae45e"
+    }
+  ],
+  "records": [
+    {
+      "source_record_key": "uk_data_centres_cited_count",
+      "record_kind": "CONTEXT_METRIC",
+      "title": "UK data centres cited as listed",
+      "summary": "The repository records a BBC-cited total of 564 listed UK data centres on 29 July 2026.",
+      "geography": "United Kingdom",
+      "metric_name": "data_centres_cited_count",
+      "value_min": 564.0,
+      "value_max": 564.0,
+      "unit": "DATA_CENTRES",
+      "eligible_for_project_signal": false,
+      "display_rank": 1
+    },
+    {
+      "source_record_key": "grid_connection_capacity_requested",
+      "record_kind": "CONTEXT_METRIC",
+      "title": "Electricity connection capacity requested",
+      "summary": "The repository records 125 GW of requested electricity-connection capacity, up from 41 GW in one year.",
+      "geography": "Great Britain",
+      "metric_name": "grid_connection_capacity_requested",
+      "value_min": 125.0,
+      "value_max": 125.0,
+      "unit": "GW",
+      "eligible_for_project_signal": false,
+      "display_rank": 2
+    },
+    {
+      "source_record_key": "proposed_connection_deposit_per_mw",
+      "record_kind": "CONTEXT_METRIC",
+      "title": "Proposed refundable connection deposit",
+      "summary": "The repository records an Ofgem proposal ranging from GBP 237,500 to GBP 712,500 per MW.",
+      "geography": "Great Britain",
+      "metric_name": "proposed_connection_deposit_per_mw",
+      "value_min": 237500.0,
+      "value_max": 712500.0,
+      "unit": "GBP_PER_MW",
+      "eligible_for_project_signal": false,
+      "display_rank": 3
+    }
+  ]
+}
