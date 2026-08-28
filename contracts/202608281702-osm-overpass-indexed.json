@@ -1,0 +1,16 @@
+{
+  "schema": "data-centres-osm-indexed-query-repair-v1",
+  "repair_generation": "202608281702",
+  "failed_run_id": 33186567222,
+  "failed_job_id": 98901064333,
+  "failure_artifact_id": 9692172935,
+  "failure_artifact_digest": "sha256:3fc0117f7860e9f985144c84fd83e5b79fc648654b5b2e65fb09ad9ace662cd7",
+  "query_path": "queries/202608281702-gb-data-centres-indexed.overpassql",
+  "query_sha256": "57976c38c2cb71f2c88343b9d0d486b3316d73f7123d85c4f99d09f7699db374",
+  "request_partitioning": "SINGLE_POST",
+  "parallel_requests": 0,
+  "bounded_attempts": 3,
+  "selector_method": "EXACT_INDEXED_KEY_VALUE",
+  "geometry_mode": "CENTER_NOT_FULL_GEOMETRY",
+  "candidate_only": true
+}

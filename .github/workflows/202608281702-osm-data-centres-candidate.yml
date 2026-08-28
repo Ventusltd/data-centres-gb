@@ -1,0 +1,230 @@
+name: "202608281702 · indexed OSM data-centres candidate"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608281702-osm-data-centres-candidate.yml"
+      - "build/python/202608281702-osm-overpass-indexed.py"
+      - "contracts/202608281702-osm-overpass-indexed.json"
+      - "queries/202608281702-gb-data-centres-indexed.overpassql"
+      - "tests/test_202608281702_osm_overpass_indexed.py"
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: data-centres-gb-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  GENERATION: "202608281053"
+  DUCKDB_VERSION: "1.3.2"
+  REPAIR_GENERATION: "202608281702"
+  PARENT_COMMIT: "fc0967632ec9a5a3cc0c06ef3e4af8ed2eda6a93"
+  FAILED_RUN_ID: "33186567222"
+  FAILED_JOB_ID: "98901064333"
+  FAILED_ARTIFACT_ID: "9692172935"
+  FAILED_ARTIFACT_DIGEST: "sha256:3fc0117f7860e9f985144c84fd83e5b79fc648654b5b2e65fb09ad9ace662cd7"
+  CANDIDATE_BRANCH: "candidate/202608281053-osm-data-centres"
+
+jobs:
+  fetch-build-verify-quarantine:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out exact source commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up pinned Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned build dependencies
+        run: python -m pip install --disable-pip-version-check "duckdb==${DUCKDB_VERSION}" "requests==2.32.4"
+
+      - name: Assert main, direct parent and exact repair boundary
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF}" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          read -r -a ancestry <<< "$(git rev-list --parents -n 1 "${GITHUB_SHA}")"
+          test "${#ancestry[@]}" -eq 2
+          test "${ancestry[1]}" = "${PARENT_COMMIT}"
+          git diff --name-status --no-renames "${PARENT_COMMIT}" "${GITHUB_SHA}" | sort > "${RUNNER_TEMP}/actual"
+          printf '%s\n' \
+            $'A\t.github/workflows/202608281702-osm-data-centres-candidate.yml' \
+            $'A\tbuild/python/202608281702-osm-overpass-indexed.py' \
+            $'A\tcontracts/202608281702-osm-overpass-indexed.json' \
+            $'A\tqueries/202608281702-gb-data-centres-indexed.overpassql' \
+            $'A\ttests/test_202608281702_osm_overpass_indexed.py' | sort > "${RUNNER_TEMP}/expected"
+          diff -u "${RUNNER_TEMP}/expected" "${RUNNER_TEMP}/actual"
+          test -z "$(git status --porcelain=v1)"
+
+          test "$(git rev-parse HEAD:.github/workflows/202608281626-osm-data-centres-candidate.yml)" = "4ee6aa598a0fd13eb2e2ac845302096b27e8548e"
+          test "$(git rev-parse HEAD:build/python/202608281626-osm-overpass-retry.py)" = "1d4e0bbf58efc954f3d50cfe1c7d16a75c444dce"
+          test "$(git rev-parse HEAD:contracts/202608281626-osm-overpass-retry-privacy.json)" = "d1952c80aed8e3407731bfe859c74f3ee15c9812"
+          test "$(git rev-parse HEAD:tests/test_202608281626_osm_overpass_retry.py)" = "a353f217daff47ddf90aaffeb2bf6946939af0f5"
+
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${FAILED_RUN_ID}" > "${RUNNER_TEMP}/failed-run.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/jobs/${FAILED_JOB_ID}" > "${RUNNER_TEMP}/failed-job.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${FAILED_ARTIFACT_ID}" > "${RUNNER_TEMP}/failed-artifact.json"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          temp = Path(os.environ["RUNNER_TEMP"])
+          run = json.loads((temp / "failed-run.json").read_text(encoding="utf-8"))
+          job = json.loads((temp / "failed-job.json").read_text(encoding="utf-8"))
+          artifact = json.loads((temp / "failed-artifact.json").read_text(encoding="utf-8"))
+          assert run["id"] == int(os.environ["FAILED_RUN_ID"])
+          assert run["head_sha"] == os.environ["PARENT_COMMIT"]
+          assert run["conclusion"] == "failure"
+          assert job["id"] == int(os.environ["FAILED_JOB_ID"])
+          assert job["conclusion"] == "failure"
+          failed = [
+              step for step in job["steps"]
+              if step["name"] == "Fetch OpenStreetMap with three bounded envelope attempts"
+          ]
+          assert len(failed) == 1 and failed[0]["conclusion"] == "failure"
+          assert artifact["id"] == int(os.environ["FAILED_ARTIFACT_ID"])
+          assert artifact["digest"] == os.environ["FAILED_ARTIFACT_DIGEST"]
+          assert artifact["expired"] is False
+          assert artifact["workflow_run"]["head_sha"] == os.environ["PARENT_COMMIT"]
+          PY
+
+          python build/python/202608281702-osm-overpass-indexed.py doctor --root .
+
+      - name: Run offline hostile fixture, privacy and indexed-query suites
+        shell: bash
+        env:
+          PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app.py \
+            build/python/202608281053-osm-data-centres.py \
+            build/python/202608281626-osm-overpass-retry.py \
+            build/python/202608281702-osm-overpass-indexed.py \
+            tests/test_202608281053_osm_data_centres.py \
+            tests/test_202608281626_osm_overpass_retry.py \
+            tests/test_202608281702_osm_overpass_indexed.py
+          python -m unittest -v \
+            tests/test_202608281053_osm_data_centres.py \
+            tests/test_202608281626_osm_overpass_retry.py \
+            tests/test_202608281702_osm_overpass_indexed.py
+
+      - name: Fetch OpenStreetMap with indexed selectors and three bounded attempts
+        id: overpass
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281702-osm-overpass-indexed.py fetch \
+            --root . \
+            --output "${RUNNER_TEMP}/overpass-fetch.json"
+          test -s "${RUNNER_TEMP}/overpass-fetch.json"
+          test ! -e "${RUNNER_TEMP}/overpass-fetch-failure.json"
+
+      - name: Retain sanitised Overpass failure evidence
+        if: failure() && steps.overpass.outcome == 'failure'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: overpass-indexed-fetch-failure-${{ env.REPAIR_GENERATION }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/overpass-fetch-failure.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 9
+
+      - name: Compile twice from the same retained response
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281702-osm-overpass-indexed.py build \
+            --root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --output-root "${RUNNER_TEMP}/candidate-a" \
+            --source-commit "${GITHUB_SHA}"
+          python build/python/202608281702-osm-overpass-indexed.py build \
+            --root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --output-root "${RUNNER_TEMP}/candidate-b" \
+            --source-commit "${GITHUB_SHA}"
+
+      - name: Verify both closures and byte parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281702-osm-overpass-indexed.py verify \
+            --root "${RUNNER_TEMP}/candidate-a" \
+            --source-root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --expected-source-commit "${GITHUB_SHA}"
+          python build/python/202608281702-osm-overpass-indexed.py verify \
+            --root "${RUNNER_TEMP}/candidate-b" \
+            --source-root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --expected-source-commit "${GITHUB_SHA}"
+          python build/python/202608281702-osm-overpass-indexed.py compare \
+            --left "${RUNNER_TEMP}/candidate-a" \
+            --right "${RUNNER_TEMP}/candidate-b"
+
+      - name: Land only the complete candidate closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281702-osm-overpass-indexed.py land \
+            --candidate-root "${RUNNER_TEMP}/candidate-a" \
+            --destination-root . \
+            --source-commit "${GITHUB_SHA}"
+          python build/python/202608281702-osm-overpass-indexed.py verify \
+            --root . \
+            --source-root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --expected-source-commit "${GITHUB_SHA}"
+
+      - name: Assert immutable output-only boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=(
+            "data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet"
+            "data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet"
+            "exports/202608281053-osm-data-centres.geojson"
+            "reports/202608281053-osm-data-centres-audit.json"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          mapfile -t actual < <(git status --porcelain=v1 --untracked-files=all | cut -c4- | sort)
+          diff -u <(printf '%s\n' "${expected_sorted[@]}") <(printf '%s\n' "${actual[@]}")
+
+      - name: Commit immutable quarantined candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- \
+            data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet \
+            data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet \
+            exports/202608281053-osm-data-centres.geojson \
+            reports/202608281053-osm-data-centres-audit.json
+          expected=(
+            "data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet"
+            "data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet"
+            "exports/202608281053-osm-data-centres.geojson"
+            "reports/202608281053-osm-data-centres-audit.json"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          mapfile -t staged < <(git diff --cached --name-only | sort)
+          diff -u <(printf '%s\n' "${expected_sorted[@]}") <(printf '%s\n' "${staged[@]}")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          export GIT_AUTHOR_DATE="2026-08-28T09:53:00Z"
+          export GIT_COMMITTER_DATE="2026-08-28T09:53:00Z"
+          git commit -m "202608281053: publish quarantined OSM data-centres candidate"
+          git push origin "HEAD:refs/heads/${CANDIDATE_BRANCH}"
