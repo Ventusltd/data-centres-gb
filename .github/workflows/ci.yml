@@ -1,31 +1,42 @@
-name: Validate API
+name: Validate API and data law
 
 on:
   push:
+    branches-ignore:
+      - "candidate/**"
   pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: data-centres-gb-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up pinned Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
           cache: pip
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install pinned dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
 
-      - name: Compile application
-        run: python -m compileall app.py
+      - name: Compile application and timestamped producer
+        env:
+          PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
+        run: |
+          python -m py_compile app.py build/python/202608281053-osm-data-centres.py tests/test_202608281053_osm_data_centres.py
+          python -c "from app import app; print(app.title)"
 
-      - name: Import application
-        run: python -c "from app import app; print(app.title)"
+      - name: Run offline fixture suite
+        run: python -m unittest -v tests/test_202608281053_osm_data_centres.py

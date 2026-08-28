@@ -1,0 +1,184 @@
+name: "202608281053 · OSM data-centres candidate"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608281053-osm-data-centres-candidate.yml"
+      - ".github/workflows/ci.yml"
+      - "README.md"
+      - "app.py"
+      - "build/python/202608281053-osm-data-centres.py"
+      - "contracts/202608281053-osm-data-centres.json"
+      - "data/source-fixtures/202608281053-overpass-fixture.json"
+      - "docs/data-sources.md"
+      - "evidence/202608281053-bbc-data-centres-news-link.json"
+      - "manifests/202608281053-osm-data-centres-source.json"
+      - "queries/202608281053-gb-data-centres.overpassql"
+      - "requirements.txt"
+      - "tests/test_202608281053_osm_data_centres.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-centres-gb-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  GENERATION: "202608281053"
+  DUCKDB_VERSION: "1.3.2"
+  PARENT_COMMIT: "7e98a64801b9d9936fd37abb1cb6fc5c4827e88e"
+  CANDIDATE_BRANCH: "candidate/202608281053-osm-data-centres"
+
+jobs:
+  fetch-build-verify-quarantine:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out exact source commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up pinned Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned build dependencies
+        run: python -m pip install --disable-pip-version-check "duckdb==${DUCKDB_VERSION}" "requests==2.32.4"
+
+      - name: Assert main, direct parent and exact source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF}" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          read -r -a ancestry <<< "$(git rev-list --parents -n 1 "${GITHUB_SHA}")"
+          test "${#ancestry[@]}" -eq 2
+          test "${ancestry[1]}" = "${PARENT_COMMIT}"
+          expected=(
+            ".github/workflows/202608281053-osm-data-centres-candidate.yml"
+            ".github/workflows/ci.yml"
+            "README.md"
+            "app.py"
+            "build/python/202608281053-osm-data-centres.py"
+            "contracts/202608281053-osm-data-centres.json"
+            "data/source-fixtures/202608281053-overpass-fixture.json"
+            "docs/data-sources.md"
+            "evidence/202608281053-bbc-data-centres-news-link.json"
+            "manifests/202608281053-osm-data-centres-source.json"
+            "queries/202608281053-gb-data-centres.overpassql"
+            "requirements.txt"
+            "tests/test_202608281053_osm_data_centres.py"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          mapfile -t actual < <(git diff --name-only --diff-filter=ACDMRTUXB "${PARENT_COMMIT}" "${GITHUB_SHA}" | sort)
+          diff -u <(printf '%s\n' "${expected_sorted[@]}") <(printf '%s\n' "${actual[@]}")
+          test -z "$(git status --porcelain=v1)"
+          python build/python/202608281053-osm-data-centres.py doctor --root .
+
+      - name: Run offline hostile fixture suite
+        shell: bash
+        env:
+          PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
+        run: |
+          set -euo pipefail
+          python -m py_compile app.py build/python/202608281053-osm-data-centres.py tests/test_202608281053_osm_data_centres.py
+          python -m unittest -v tests/test_202608281053_osm_data_centres.py
+
+      - name: Fetch OpenStreetMap once through Overpass
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281053-osm-data-centres.py fetch \
+            --root . \
+            --output "${RUNNER_TEMP}/overpass-fetch.json"
+          test -s "${RUNNER_TEMP}/overpass-fetch.json"
+
+      - name: Compile twice from the same retained response
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281053-osm-data-centres.py build \
+            --root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --output-root "${RUNNER_TEMP}/candidate-a" \
+            --source-commit "${GITHUB_SHA}"
+          python build/python/202608281053-osm-data-centres.py build \
+            --root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --output-root "${RUNNER_TEMP}/candidate-b" \
+            --source-commit "${GITHUB_SHA}"
+
+      - name: Verify both closures and byte parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281053-osm-data-centres.py verify \
+            --root "${RUNNER_TEMP}/candidate-a" \
+            --source-root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --expected-source-commit "${GITHUB_SHA}"
+          python build/python/202608281053-osm-data-centres.py verify \
+            --root "${RUNNER_TEMP}/candidate-b" \
+            --source-root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --expected-source-commit "${GITHUB_SHA}"
+          python build/python/202608281053-osm-data-centres.py compare \
+            --left "${RUNNER_TEMP}/candidate-a" \
+            --right "${RUNNER_TEMP}/candidate-b"
+
+      - name: Land only the complete candidate closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build/python/202608281053-osm-data-centres.py land \
+            --candidate-root "${RUNNER_TEMP}/candidate-a" \
+            --destination-root . \
+            --source-commit "${GITHUB_SHA}"
+          python build/python/202608281053-osm-data-centres.py verify \
+            --root . \
+            --source-root . \
+            --input "${RUNNER_TEMP}/overpass-fetch.json" \
+            --expected-source-commit "${GITHUB_SHA}"
+
+      - name: Assert immutable output-only boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=(
+            "data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet"
+            "data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet"
+            "exports/202608281053-osm-data-centres.geojson"
+            "reports/202608281053-osm-data-centres-audit.json"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          mapfile -t actual < <(git status --porcelain=v1 --untracked-files=all | cut -c4- | sort)
+          diff -u <(printf '%s\n' "${expected_sorted[@]}") <(printf '%s\n' "${actual[@]}")
+
+      - name: Commit immutable quarantined candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- \
+            data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet \
+            data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet \
+            exports/202608281053-osm-data-centres.geojson \
+            reports/202608281053-osm-data-centres-audit.json
+          expected=(
+            "data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet"
+            "data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet"
+            "exports/202608281053-osm-data-centres.geojson"
+            "reports/202608281053-osm-data-centres-audit.json"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          mapfile -t staged < <(git diff --cached --name-only | sort)
+          diff -u <(printf '%s\n' "${expected_sorted[@]}") <(printf '%s\n' "${staged[@]}")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          export GIT_AUTHOR_DATE="2026-08-28T09:53:00Z"
+          export GIT_COMMITTER_DATE="2026-08-28T09:53:00Z"
+          git commit -m "202608281053: publish quarantined OSM data-centres candidate"
+          git push origin "HEAD:refs/heads/${CANDIDATE_BRANCH}"

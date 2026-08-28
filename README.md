@@ -1,147 +1,75 @@
 # Data Centres GB
 
-Open-source tooling for collecting, normalising and serving public information about data-centre infrastructure in Great Britain.
+Open-source, provenance-first tooling for compiling United Kingdom data-centre source records into compact Parquet, DuckDB-readable relationship tables and a small map export.
 
-The project was created following the BBC News report **“Data centres could pay hundreds of millions in deposits for power demands”**, published on 29 July 2026. The report states that 564 data centres were listed in the UK and describes Ofgem proposals for refundable grid-connection deposits of £237,500 to £712,500 per MW. A 1 GW project could therefore face an initial deposit of £237.5 million to £712.5 million.
+The facility source is **OpenStreetMap via one bounded Overpass request**. Data Center Map is excluded from ingestion because its current terms prohibit programmatic retrieval and external-database copying. OpenInfraMap is an OSM visualisation layer, not a second source. See [the data-source law](docs/data-sources.md).
 
-The BBC article is context, not the underlying facility dataset. Facility records are fetched separately from explicitly declared sources. The first adapter targets the publicly visible London listings on Data Center Map.
+## What this generation builds
 
-## Purpose
+The `202608281053` candidate producer:
 
-This repository separates four things that are often mixed together:
+1. posts one declared UK query to Overpass;
+2. immediately ignores contributor username, UID and changeset;
+3. fails closed on empty, partial, remarked, duplicated or untagged results;
+4. compiles the same retained response twice with DuckDB 1.3.2;
+5. proves byte-identical ZSTD Parquet and exact DuckDB readback;
+6. writes only an immutable candidate branch—never `main` or Pages.
 
-1. source discovery;
-2. raw public records;
-3. normalised data-centre facts;
-4. an open JSON API for downstream maps, grid studies and research.
+Outputs:
 
-Every API response includes source and retrieval metadata. No record should be presented as independently verified merely because it was collected successfully.
+```text
+data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet
+data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet
+exports/202608281053-osm-data-centres.geojson
+reports/202608281053-osm-data-centres-audit.json
+```
 
-## Current source
+The facility Parquet grain is one OSM element. `DCGB-OSM-<TYPE>-<ID>` is a stable source-record ID, not a claim that one element equals one real facility. Buildings and campuses are not silently merged.
 
-- BBC context: `https://www.bbc.co.uk/news/articles/c9q90q9qnn2o`
-- Data Center Map London listings: `https://www.datacentermap.com/united-kingdom/london/`
+The company relationship Parquet is deliberately conservative. It retains raw OSM operator/owner strings, but asserts no company number, computes no score and marks every row `ABSTAIN` / `eligible_for_join=false`. A later resolver must use a pinned Companies Parquet generation and verified Companies House numbers; this producer makes zero Companies requests.
 
-Data Center Map currently describes its London page as containing hundreds of facilities across London and the wider London market. Counts can change between retrievals and may include locations outside Greater London, such as Slough, Hemel Hempstead, Reading and Crawley.
-
-## Install
+## Run offline verification
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python -m unittest -v tests/test_202608281053_osm_data_centres.py
 ```
 
-## Run the API
+The unit suite uses only the hostile fixture. It never accesses the network.
+
+## Local API
+
+The FastAPI service reads an already landed GeoJSON export. It performs no source fetch from a request handler.
 
 ```bash
 uvicorn app:app --reload
 ```
 
-Open:
+Endpoints:
 
 ```text
-http://127.0.0.1:8000/
-http://127.0.0.1:8000/v1/data-centres?source=datacentermap&region=london
-http://127.0.0.1:8000/docs
+GET /
+GET /health
+GET /v1/data-centres/sources
+GET /v1/data-centres
+GET /v1/data-centres?generation=202608281053
 ```
 
-## Example response
+If no candidate output has been deliberately installed, `/v1/data-centres` returns `404` rather than fetching a website.
 
-```json
-{
-  "source": "datacentermap",
-  "source_url": "https://www.datacentermap.com/united-kingdom/london/",
-  "region": "london",
-  "retrieved_at": "2026-07-29T12:00:00+00:00",
-  "record_count": 258,
-  "records": [
-    {
-      "name": "Example facility",
-      "operator": "Example operator",
-      "address": "Example address",
-      "postcode": "E14 9AA",
-      "locality": "London",
-      "source_url": "https://www.datacentermap.com/..."
-    }
-  ]
-}
-```
+## BBC / PipelineNews boundary
 
-The count above is illustrative. The live endpoint returns the records visible at retrieval time.
+The BBC report [“Data centres could pay hundreds of millions in deposits for power demands”](https://www.bbc.co.uk/news/articles/c9q90q9qnn2o) is news context, not facility data. PipelineNews already carries its link behind three quarantined `DATA_CENTRES` context cards. This repository also defines a one-row link-only owner evidence record for a future pinned `SOURCE_METADATA` projection; it stores no article body, HTML, snippet, summary, image or project binding.
 
-## API contract
+Use Ofgem’s primary release for connection-deposit policy claims. Do not bind editorial context to facilities, companies or REPD projects.
 
-### `GET /`
+## Licensing
 
-Service metadata and available sources.
+- Code: MIT.
+- OSM-derived Parquet, relationships and GeoJSON: ODbL 1.0.
+- Required attribution: `© OpenStreetMap contributors`.
+- Third-party news links remain subject to their publishers’ rights.
 
-### `GET /health`
-
-Basic process health.
-
-### `GET /v1/data-centres`
-
-Query parameters:
-
-- `source`: currently `datacentermap`;
-- `region`: currently `london`;
-- `refresh`: set to `true` to bypass the in-process cache.
-
-The adapter performs a normal HTTP request, uses a descriptive user agent, applies a timeout and keeps a short cache. It does not bypass authentication, paywalls, CAPTCHAs or technical access controls.
-
-## Data model
-
-Each normalised record may contain:
-
-```text
-name
-operator
-address
-postcode
-locality
-country
-status
-latitude
-longitude
-source
-source_url
-retrieved_at
-```
-
-Unknown fields remain `null`. Inferred values should not be silently represented as source facts.
-
-## Source and legal discipline
-
-This software is open source. Third-party web content is not automatically open data.
-
-Before operating a recurring collector, users must review the source website’s current terms, robots policy and licensing position. Collection frequency should be low and proportionate. The software must not be used to defeat access controls or reproduce protected databases unlawfully.
-
-Where a source offers a licensed API or downloadable dataset, that route should replace HTML extraction. Contributors are encouraged to add adapters for official planning portals, operator disclosures, local authority planning data and other openly licensed sources.
-
-## Known limitations
-
-- A commercial directory is not the same as a complete national register.
-- A “London” market page may include facilities across a much wider geographic area.
-- Facility, campus and individual-building records can overlap.
-- Public listings may omit electrical demand, planning status or exact coordinates.
-- HTML structure can change without warning.
-- A successful fetch does not establish accuracy or currency.
-
-## Development
-
-Run a syntax check:
-
-```bash
-python -m compileall app.py
-```
-
-The next useful additions are source-specific tests, a persistent provenance store, deduplication across campus/building records, official planning-data adapters and GeoJSON output.
-
-## Licence
-
-Code is released under the MIT Licence. Third-party source data remains subject to the rights and terms of its publisher.
-
-## Disclaimer
-
-This repository is for research, documentation and early-stage infrastructure analysis. It does not provide engineering, planning, legal, investment or grid-connection advice.
+This repository provides research data, not engineering, planning, legal, investment or grid-connection advice.

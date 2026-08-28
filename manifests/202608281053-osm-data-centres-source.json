@@ -1,0 +1,77 @@
+{
+  "schema": "data-centres-osm-source-manifest-v1",
+  "generation": "202608281053",
+  "deployment_state": "candidate-only",
+  "promotion_eligible": false,
+  "source_boundary": [
+    ".github/workflows/202608281053-osm-data-centres-candidate.yml",
+    ".github/workflows/ci.yml",
+    "README.md",
+    "app.py",
+    "build/python/202608281053-osm-data-centres.py",
+    "contracts/202608281053-osm-data-centres.json",
+    "data/source-fixtures/202608281053-overpass-fixture.json",
+    "docs/data-sources.md",
+    "evidence/202608281053-bbc-data-centres-news-link.json",
+    "manifests/202608281053-osm-data-centres-source.json",
+    "queries/202608281053-gb-data-centres.overpassql",
+    "requirements.txt",
+    "tests/test_202608281053_osm_data_centres.py"
+  ],
+  "overpass": {
+    "role": "SOLE FACILITY SOURCE FOR THIS GENERATION",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "query_path": "queries/202608281053-gb-data-centres.overpassql",
+    "query_sha256": "b36fbfe145a30f8f5a80e7dd56eecfbc666b4b07ac1c44686df7a9e5dae7360b",
+    "method": "POST",
+    "scheduled_successful_requests": 1,
+    "parallel_requests": 0,
+    "endpoint_rotation": false,
+    "bounded_attempts": 3,
+    "raw_response_committed": false,
+    "source_url": "https://www.openstreetmap.org/",
+    "licence": "ODbL-1.0",
+    "licence_url": "https://www.openstreetmap.org/copyright",
+    "attribution": "© OpenStreetMap contributors"
+  },
+  "tag_law": {
+    "active": ["telecom", "building", "industrial"],
+    "accepted_values": ["data_center", "data_centre"],
+    "lifecycle_prefixes": ["proposed", "planned", "construction", "disused", "abandoned", "demolished"],
+    "guidance": "https://wiki.openstreetmap.org/wiki/Tag:telecom%3Ddata_center",
+    "experimental_capacity_fields": ["input:electricity", "it_power", "data_center:floor_area"],
+    "experimental_capacity_policy": "Preserve only inside tags_json; never treat as authoritative capacity without independent evidence."
+  },
+  "visual_validation": {
+    "openinframap": {
+      "role": "VISUAL VALIDATION AND LINK-OUT ONLY; IT IS AN OSM VIEW, NOT AN INDEPENDENT SOURCE",
+      "network_requests": 0,
+      "repository": "https://github.com/openinframap/openinframap",
+      "architecture": "https://github.com/openinframap/openinframap/blob/main/docs/architecture.md"
+    }
+  },
+  "excluded_sources": {
+    "datacentermap": {
+      "role": "HUMAN-ONLY MARKET REFERENCE",
+      "network_requests": 0,
+      "rows_copied": 0,
+      "reason": "Terms prohibit scraping, crawling, caching, programmatic retrieval and integration into an external database; licensed exports are not open redistribution rights.",
+      "terms": "https://www.datacentermap.com/legal/terms/",
+      "licensed_export": "https://www.datacentermap.com/research/explorer/"
+    }
+  },
+  "news_context": {
+    "bbc": {
+      "role": "LINK-ONLY EDITORIAL CONTEXT; NEVER FACILITY DATA",
+      "path": "evidence/202608281053-bbc-data-centres-news-link.json",
+      "raw_html_bytes": 0,
+      "article_body_bytes": 0,
+      "snippet_bytes": 0,
+      "project_bindings": 0
+    },
+    "ofgem": {
+      "role": "PRIMARY POLICY SOURCE FOR CONNECTION-DEPOSIT CLAIMS IN A FUTURE NEWS GENERATION",
+      "url": "https://www.ofgem.gov.uk/press-release/ofgem-acts-free-grid-capacity-tackling-speculative-data-centre-projects"
+    }
+  }
+}
