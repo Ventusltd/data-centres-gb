@@ -1,0 +1,164 @@
+{
+  "schema": "data-centre-company-federation-contract-v1",
+  "owner": "Ventusltd/data-centres-gb",
+  "incepted_at": "2026-08-28T19:44:00+01:00",
+  "purpose": "Freeze the verified candidate relationship schema and its abstention law without asserting facility identity, company identity, ownership or operation.",
+  "lineage": {
+    "source_main_commit": "6ca69145d886089d3cf6e8aa7d2ee849db02da7b",
+    "workflow_run_id": 33192937058,
+    "workflow_run_url": "https://github.com/Ventusltd/data-centres-gb/actions/runs/33192937058",
+    "candidate_branch": "candidate/202608281053-osm-data-centres",
+    "candidate_commit": "b2be24b3673a2532b3deab87f90861ca59e730fd",
+    "candidate_parent": "6ca69145d886089d3cf6e8aa7d2ee849db02da7b",
+    "generation": "202608281053",
+    "last_known_green_predecessor": {
+      "contract_path": "contracts/202608281053-osm-data-centres.json",
+      "contract_sha256": "698808e25ca788ba10da76d9c3058b5eca6c68dd15ba8f959a9d61c6e2073b6a",
+      "candidate_commit": "b2be24b3673a2532b3deab87f90861ca59e730fd"
+    },
+    "recovery_rule": "Any correction requires a new Europe/London-timestamped successor; never overwrite this contract or its candidate."
+  },
+  "verified_candidate": {
+    "closure_files": 4,
+    "closure_bytes": 292578,
+    "duckdb_version": "1.3.2",
+    "readback_option": "hive_partitioning=false",
+    "element_rows": 306,
+    "relationship_rows": 612,
+    "audit": {
+      "path": "reports/202608281053-osm-data-centres-audit.json",
+      "bytes": 8726,
+      "sha256": "d5959772b6cdec297e5356f2e35ad9f5c17ec3d8a0770a52a88549f766b39af8"
+    },
+    "source_manifest": {
+      "path": "manifests/202608281053-osm-data-centres-source.json",
+      "bytes": 3349,
+      "sha256": "eb24310baa6be5a83c70f012dfe82f24efc13643c93d60088e72df3b7e494a0e"
+    }
+  },
+  "key_authorities": {
+    "data_centre_source_record_id": {
+      "authority": "OpenStreetMap element identity",
+      "format": "DCGB-OSM-{NODE|WAY|RELATION}-{osm_id}",
+      "identity_status": "SOURCE_ELEMENT_ONLY",
+      "canonical_facility_identity": false
+    },
+    "company_number": {
+      "authority": "Companies House company number",
+      "required_before_join": true,
+      "current_verified_values": 0
+    },
+    "relationship_record_id": {
+      "format": "DCCO-{data_centre_source_record_id}-{relationship_type}",
+      "declared_key": true
+    }
+  },
+  "relationship_dataset": {
+    "path": "data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet",
+    "format": "PARQUET",
+    "compression": "ZSTD",
+    "bytes": 14304,
+    "sha256": "4d80c7b4549a8368f1e90fecc2b74b50e5daf04514ed7ec9bc192608897bb389",
+    "rows": 612,
+    "distinct_declared_keys": 612,
+    "duplicate_key_groups": 0,
+    "null_declared_keys": 0,
+    "grain": "one requested relationship-role adjudication slot for one OSM source element; the slot is not a relationship assertion",
+    "declared_key": [
+      "relationship_record_id"
+    ],
+    "schema_contract": [
+      {"name": "relationship_record_id", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "generation", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "data_centre_source_record_id", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "data_centre_id", "duckdb_type": "VARCHAR", "logical_required": false},
+      {"name": "company_number", "duckdb_type": "VARCHAR", "logical_required": false},
+      {"name": "company_name_raw", "duckdb_type": "VARCHAR", "logical_required": false},
+      {"name": "relationship_type", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "company_ref_status", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "match_score", "duckdb_type": "DOUBLE", "logical_required": false},
+      {"name": "score_method", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "adjudication_decision", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "evidence_status", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "abstention_reason", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "source_url", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "source_attribution", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "source_licence", "duckdb_type": "VARCHAR", "logical_required": true},
+      {"name": "eligible_for_join", "duckdb_type": "BOOLEAN", "logical_required": true}
+    ]
+  },
+  "source_element_dataset": {
+    "path": "data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet",
+    "bytes": 54876,
+    "sha256": "0986397ef67b0f696aa90b858c3c7c681ef86bc228d5b93312be5b39ff094813",
+    "rows": 306,
+    "distinct_source_record_ids": 306,
+    "facility_identity_status": "SOURCE_ELEMENT_ONLY",
+    "eligible_for_company_binding": false
+  },
+  "closed_vocabulary": {
+    "requested_relationship_type": {
+      "OWNER": 306,
+      "OPERATOR": 306
+    },
+    "company_ref_status": {
+      "UNRESOLVED": 612
+    },
+    "score_method": {
+      "NOT_SCORED": 612
+    },
+    "adjudication_decision": {
+      "ABSTAIN": 612
+    },
+    "evidence_status": {
+      "SOURCE_PARTY_WITHHELD_PRIVACY": 612
+    },
+    "abstention_reason": {
+      "VERIFIED_COMPANY_NUMBER_REQUIRED": 612
+    },
+    "eligible_for_join": {
+      "false": 612
+    }
+  },
+  "interpretation": {
+    "relationship_type_is_requested_slot_not_asserted_role": true,
+    "asserted_role_vocabulary": [],
+    "default_decision": "ABSTAIN",
+    "default_facility_identity_status": "SOURCE_ELEMENT_ONLY",
+    "company_number_required_for_any_join": true,
+    "company_name_is_identity_evidence": false,
+    "llm_may_establish_binding": false,
+    "absence_rule": "Absence of a source element or relationship slot is not evidence that a facility or relationship does not exist.",
+    "prohibited_claims": [
+      "CONFIRMED_FACILITY_IDENTITY",
+      "CONFIRMED_COMPANY_IDENTITY",
+      "CONFIRMED_OWNER",
+      "CONFIRMED_OPERATOR"
+    ]
+  },
+  "provenance_and_rights": {
+    "source": "OpenStreetMap",
+    "source_url": "https://www.openstreetmap.org/",
+    "source_attribution": "© OpenStreetMap contributors",
+    "source_licence": "ODbL-1.0",
+    "row_source_url_required": true,
+    "datacentermap_network_requests": 0,
+    "datacentermap_ingestion": "PROHIBITED",
+    "openinframap_role": "VISUAL_VALIDATION_ONLY"
+  },
+  "privacy_and_storage": {
+    "company_numbers_landed": 0,
+    "company_names_landed": 0,
+    "canonical_facility_ids_landed": 0,
+    "private_values_landed": 0,
+    "raw_overpass_response_landed": false,
+    "pipeline_news_may_copy_bulk_source_data": false
+  },
+  "publication": {
+    "promotion_eligible": false,
+    "current_pointer_may_change": false,
+    "pipeline_news_may_present_relationships_as_facts": false,
+    "globalgrid_catalogue_may_change": false,
+    "safe_downstream_label": "Data-centre/company relationship: ABSTAIN — verified company number required"
+  }
+}
