@@ -1,0 +1,70 @@
+{
+  "schema": "data-centres-osm-acquisition-repair-v1",
+  "repair_generation": "202608281626",
+  "base_generation": "202608281053",
+  "failed_run_id": 33161947627,
+  "failed_job_id": 98818333965,
+  "failed_step": "Fetch OpenStreetMap once through Overpass",
+  "bounded_attempts": 3,
+  "backoff_seconds": [0, 30, 60],
+  "connect_timeout_seconds": 20,
+  "read_timeout_seconds": 150,
+  "raw_response_landed": false,
+  "private_names_landed": false,
+  "unverified_company_names_landed": false,
+  "candidate_only": true,
+  "base_blob_pins": {
+    "producer": "ef33bd6e8ce1563f51dcef5df4c56bf520aab02c",
+    "query": "f159dd173b5a49024bcf574266d7ec4ae7012441",
+    "contract": "430a242882a7e902e6e598a4b916b08185e73ffb",
+    "source_manifest": "820141b97e461ae460d23ce8a9116fad909f5d57",
+    "fixture": "6e21a52c04b28bf195ed1d0a02367f11b1cd7e92",
+    "tests": "9a0941cfc33ab3f4a51feeeae85bacc7a1641978"
+  },
+  "privacy": {
+    "nulled_element_columns": [
+      "name_raw",
+      "operator_raw",
+      "owner_raw",
+      "ref_raw",
+      "wikidata_raw",
+      "operator_wikidata_raw",
+      "uprn_raw"
+    ],
+    "tags_json_allowed_keys": [
+      "abandoned:building",
+      "abandoned:industrial",
+      "abandoned:telecom",
+      "building",
+      "construction:building",
+      "construction:industrial",
+      "construction:telecom",
+      "demolished:building",
+      "demolished:industrial",
+      "demolished:telecom",
+      "disused:building",
+      "disused:industrial",
+      "disused:telecom",
+      "industrial",
+      "planned:building",
+      "planned:industrial",
+      "planned:telecom",
+      "proposed:building",
+      "proposed:industrial",
+      "proposed:telecom",
+      "telecom"
+    ],
+    "tags_json_value_grammar": "^(?:data_center|data_centre)$",
+    "relationship_slots_per_element": 2,
+    "relationship_null_columns": [
+      "data_centre_id",
+      "company_number",
+      "company_name_raw",
+      "match_score"
+    ],
+    "relationship_evidence_status": "SOURCE_PARTY_WITHHELD_PRIVACY",
+    "relationship_abstention_reason": "VERIFIED_COMPANY_NUMBER_REQUIRED",
+    "relationship_eligible_for_join": false,
+    "raw_party_name_contact_identifiers_landed": false
+  }
+}
