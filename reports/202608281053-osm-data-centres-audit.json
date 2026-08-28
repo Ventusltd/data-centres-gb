@@ -1,0 +1,338 @@
+{
+  "element_rows": 306,
+  "fetched_at": "2026-08-28T17:04:59Z",
+  "generation": "202608281053",
+  "identity": {
+    "canonical_facility_ids_created": 0,
+    "company_numbers_asserted": 0,
+    "relationship_decisions": [
+      "ABSTAIN"
+    ],
+    "source_record_key": "osm_type + osm_id"
+  },
+  "network": {
+    "companies_fetch_requests": 0,
+    "datacentermap_requests": 0,
+    "openinframap_requests": 0,
+    "overpass_request_attempts": 1,
+    "overpass_successful_requests": 1
+  },
+  "osm_base_timestamp": "2026-08-28T17:02:36Z",
+  "outputs": {
+    "browser_geojson": {
+      "bytes": 214672,
+      "derived_from": "elements_parquet_duckdb_readback",
+      "path": "exports/202608281053-osm-data-centres.geojson",
+      "sha256": "5c665ea7e9d67a9fc31ea4ef1007e9ce222ff34ce348f57c9d0882c6add2138d"
+    },
+    "elements_parquet": {
+      "bytes": 54876,
+      "compression": "ZSTD",
+      "path": "data/facilities/generation=202608281053/source=OPENSTREETMAP/osm-data-centre-elements-v1.parquet",
+      "sha256": "0986397ef67b0f696aa90b858c3c7c681ef86bc228d5b93312be5b39ff094813"
+    },
+    "relationships_parquet": {
+      "bytes": 14304,
+      "compression": "ZSTD",
+      "path": "data/relationships/generation=202608281053/data-centre-company-relationships-v1.parquet",
+      "sha256": "4d80c7b4549a8368f1e90fecc2b74b50e5daf04514ed7ec9bc192608897bb389"
+    }
+  },
+  "query_repair": {
+    "bounded_attempts": 3,
+    "candidate_only": true,
+    "failed_job_id": 98901064333,
+    "failed_run_id": 33186567222,
+    "failure_artifact_digest": "sha256:3fc0117f7860e9f985144c84fd83e5b79fc648654b5b2e65fb09ad9ace662cd7",
+    "failure_artifact_id": 9692172935,
+    "geometry_mode": "CENTER_NOT_FULL_GEOMETRY",
+    "parallel_requests": 0,
+    "query_path": "queries/202608281702-gb-data-centres-indexed.overpassql",
+    "query_sha256": "57976c38c2cb71f2c88343b9d0d486b3316d73f7123d85c4f99d09f7699db374",
+    "repair_generation": "202608281702",
+    "request_partitioning": "SINGLE_POST",
+    "selector_method": "EXACT_INDEXED_KEY_VALUE"
+  },
+  "query_sha256": "57976c38c2cb71f2c88343b9d0d486b3316d73f7123d85c4f99d09f7699db374",
+  "raw_fetch_landed": false,
+  "raw_fetch_sha256": "34cbac521f615f22a48c2519212738a9637632b7220b88c3af0d690152b0b782",
+  "relationship_rows": 612,
+  "repair": {
+    "element_rows_checked": 306,
+    "privacy": {
+      "nulled_element_columns": [
+        "name_raw",
+        "operator_raw",
+        "owner_raw",
+        "ref_raw",
+        "wikidata_raw",
+        "operator_wikidata_raw",
+        "uprn_raw"
+      ],
+      "raw_party_name_contact_identifiers_landed": false,
+      "relationship_abstention_reason": "VERIFIED_COMPANY_NUMBER_REQUIRED",
+      "relationship_eligible_for_join": false,
+      "relationship_evidence_status": "SOURCE_PARTY_WITHHELD_PRIVACY",
+      "relationship_null_columns": [
+        "data_centre_id",
+        "company_number",
+        "company_name_raw",
+        "match_score"
+      ],
+      "relationship_slots_per_element": 2,
+      "tags_json_allowed_keys": [
+        "abandoned:building",
+        "abandoned:industrial",
+        "abandoned:telecom",
+        "building",
+        "construction:building",
+        "construction:industrial",
+        "construction:telecom",
+        "demolished:building",
+        "demolished:industrial",
+        "demolished:telecom",
+        "disused:building",
+        "disused:industrial",
+        "disused:telecom",
+        "industrial",
+        "planned:building",
+        "planned:industrial",
+        "planned:telecom",
+        "proposed:building",
+        "proposed:industrial",
+        "proposed:telecom",
+        "telecom"
+      ],
+      "tags_json_value_grammar": "^(?:data_center|data_centre)$"
+    },
+    "private_strings_landed": 0,
+    "relationship_rows_checked": 612,
+    "repair_generation": "202608281702",
+    "unverified_company_names_landed": 0
+  },
+  "rights": {
+    "attribution": "© OpenStreetMap contributors",
+    "code_licence": "MIT",
+    "data_licence": "ODbL-1.0",
+    "datacentermap_ingestion": "PROHIBITED",
+    "openinframap_role": "VISUAL_VALIDATION_ONLY"
+  },
+  "schema": "data-centres-osm-audit-v1",
+  "schemas": {
+    "elements": [
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_record_id"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_element_key"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "generation"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_name"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "osm_type"
+      },
+      {
+        "duckdb_type": "BIGINT",
+        "name": "osm_id"
+      },
+      {
+        "duckdb_type": "BIGINT",
+        "name": "osm_version"
+      },
+      {
+        "duckdb_type": "TIMESTAMP",
+        "name": "osm_timestamp"
+      },
+      {
+        "duckdb_type": "TIMESTAMP",
+        "name": "osm_base_timestamp"
+      },
+      {
+        "duckdb_type": "TIMESTAMP",
+        "name": "fetched_at"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "inclusion_rule"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "matched_rules_json"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "lifecycle"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "name_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "operator_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "owner_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "ref_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "wikidata_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "operator_wikidata_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "uprn_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "tags_json"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "coordinate_trace_json"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "centroid_latitude"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "centroid_longitude"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "bbox_min_latitude"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "bbox_min_longitude"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "bbox_max_latitude"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "bbox_max_longitude"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "geometry_sha256"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "query_sha256"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_url"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_attribution"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_licence"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "facility_identity_status"
+      },
+      {
+        "duckdb_type": "BOOLEAN",
+        "name": "eligible_for_company_binding"
+      }
+    ],
+    "relationships": [
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "relationship_record_id"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "generation"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "data_centre_source_record_id"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "data_centre_id"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "company_number"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "company_name_raw"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "relationship_type"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "company_ref_status"
+      },
+      {
+        "duckdb_type": "DOUBLE",
+        "name": "match_score"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "score_method"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "adjudication_decision"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "evidence_status"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "abstention_reason"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_url"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_attribution"
+      },
+      {
+        "duckdb_type": "VARCHAR",
+        "name": "source_licence"
+      },
+      {
+        "duckdb_type": "BOOLEAN",
+        "name": "eligible_for_join"
+      }
+    ]
+  },
+  "source_commit": "6ca69145d886089d3cf6e8aa7d2ee849db02da7b",
+  "source_payload_element_count": 306,
+  "status": "PASS"
+}
