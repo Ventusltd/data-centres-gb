@@ -73,3 +73,7 @@ Use Ofgem’s primary release for connection-deposit policy claims. Do not bind 
 - Third-party news links remain subject to their publishers’ rights.
 
 This repository provides research data, not engineering, planning, legal, investment or grid-connection advice.
+
+## Related electrical-resilience research (separate from the dataset)
+
+A dated, independent [Google Cloud europe-west2-b power-path context note](docs/research/2026-11-power-path-availability.md) links to Google's public incident report and a [GlobalGrid2050 electrical reasoning case study](https://github.com/Ventusltd/globalgrid2050/blob/main/docs/research/2026-11-google-cloud-power-resilience.md). It illustrates why voltage on an isolated feeder cannot prove load-side availability. **This is not facility identification or electrical-network attribution**: no Google data-centre point, utility supplier, cable route, PLC or switchboard is asserted in this repository.
